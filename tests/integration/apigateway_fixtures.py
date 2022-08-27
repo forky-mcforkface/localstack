@@ -40,6 +40,12 @@ def assert_response_is_201(response: Dict) -> bool:
     return True
 
 
+def import_rest_api(apigateway_client, **kwargs):
+    response = apigateway_client.import_rest_api(**kwargs)
+    assert_response_is_201(response)
+    return response.get("id"), response.get("name")
+
+
 def create_rest_api(apigateway_client, **kwargs):
     response = apigateway_client.create_rest_api(**kwargs)
     assert_response_is_201(response)
@@ -47,6 +53,12 @@ def create_rest_api(apigateway_client, **kwargs):
     resources = apigateway_client.get_resources(restApiId=response.get("id"))
     root_id = next(item for item in resources["items"] if item["path"] == "/")["id"]
     return response.get("id"), response.get("name"), root_id
+
+
+def put_rest_api(apigateway_client, **kwargs):
+    response = apigateway_client.put_rest_api(**kwargs)
+    assert_response_is_200(response)
+    return response.get("id"), response.get("name")
 
 
 def get_rest_apis(apigateway_client, **kwargs):
@@ -86,6 +98,12 @@ def create_rest_api_integration(apigateway_client, **kwargs):
     response = apigateway_client.put_integration(**kwargs)
     assert_response_is_201(response)
     return response.get("uri"), response.get("type")
+
+
+def get_rest_api_resources(apigateway_client, **kwargs):
+    response = apigateway_client.get_resources(**kwargs)
+    assert_response_is_200(response)
+    return response.get("items")
 
 
 def delete_rest_api_integration(apigateway_client, **kwargs):
