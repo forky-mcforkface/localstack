@@ -1868,7 +1868,6 @@ class TestAPIGateway:
         lambda_client.delete_function(FunctionName=fn_name)
         client.delete_rest_api(restApiId=rest_api["id"])
 
-
     @pytest.mark.parametrize("base_path_type", ["ignore", "prepend", "split"])
     def test_import_rest_api(self, base_path_type, apigateway_client):
         rest_api_name = f"restapi-{short_uid()}"
@@ -1928,6 +1927,7 @@ class TestAPIGateway:
 
         # clean up
         delete_rest_api(apigateway_client, restApiId=rest_api_id)
+
     @staticmethod
     def start_http_backend(test_port):
         # test listener for target HTTP backend
